@@ -12,6 +12,7 @@ import org.testng.asserts.SoftAssert;
 import java.io.FileReader;
 
 public class AddNewPetTests {
+    //2
     @Test(dataProvider = "json_parsing",groups = {"RegressionTesting","SmokeTesting"})
     public void AddPetSuccessfuly(String data)
     {
