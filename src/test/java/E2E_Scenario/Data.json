@@ -1,0 +1,24 @@
+{
+  "AddPetData": [
+    {
+      "GeneralId": "100",
+      "CategoryId": "155",
+      "TagsId": "200"
+    }
+  ],
+  "CreateUser": [
+    {
+      "UserId": "665",
+      "UserName": "ghad",
+      "UserPassword": "999"
+    }
+    ],
+  "PlaceOrderPetData":
+  [
+    {
+      "OrderId": "355",
+      "PetId": "100",
+      "Quantity": "3"
+    }
+  ]
+}

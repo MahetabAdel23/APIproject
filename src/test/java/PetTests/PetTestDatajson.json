@@ -1,0 +1,35 @@
+{
+ "AddPetData":
+  [
+  {
+    "GeneralId": "400",
+    "CategoryId": "201",
+    "TagsId": "44"
+  }
+],
+
+  "UpdatePetData":
+  [
+    {
+      "GeneralId": "25",
+      "CategoryId": "15",
+      "TagsId": "20"
+    }
+  ],
+  "AddPetData2":
+  [
+    {
+      "GeneralId": "700",
+      "CategoryId": "88",
+      "TagsId": "90"
+    }
+  ],
+  "AddPetData5":
+  [
+    {
+      "GeneralId": "750",
+      "CategoryId": "898",
+      "TagsId": "9000"
+    }
+  ]
+}

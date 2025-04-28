@@ -1,0 +1,54 @@
+package UserTests;
+
+import UserUtils.CreateUserUtils;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import java.io.FileReader;
+
+public class CreateUserTests {
+
+
+
+    @Test(dataProvider = "json_parsing",groups = {"RegressionTesting","SmokeTesting"})
+    public void CreateUserTest(String data) {
+
+        SoftAssert softAssert = new SoftAssert();
+        String Id[]=data.split(",");
+        Response response = CreateUserUtils.CreatUser(Id[0], Id[1], Id[2], 200);
+        System.out.println("Response JSON Body: " + response.getBody().asString());//print response body
+        JsonPath jsonPath = response.jsonPath();
+        softAssert.assertEquals( jsonPath.getString("message"),Id[0]);
+
+    }
+
+
+
+
+
+    @DataProvider(name = "json_parsing")
+    public String[] jsonReader() throws Exception {
+        //parsing the file
+        JSONParser jsonParser = new JSONParser();
+        FileReader reader = new FileReader("src/test/java/UserTests/UserTestDatajson.json");
+        Object obj = jsonParser.parse(reader);
+        JSONObject jsonObject = (JSONObject) obj;//will hold all data readed
+
+        JSONArray array = (JSONArray) jsonObject.get("User33Data");
+        String arr[] = new String[array.size()];
+        for (int i = 0; i < array.size(); i++) {
+            JSONObject users = (JSONObject) array.get(i);
+            String UserId = (String) users.get("UserId");
+            String UserName = (String) users.get("UserName");
+            String UserPassword = (String) users.get("UserPassword");
+            arr[i] = UserId + "," + UserName + "," + UserPassword;
+        }
+        return arr;
+    }
+}

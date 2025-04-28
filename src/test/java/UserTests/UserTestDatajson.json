@@ -1,0 +1,53 @@
+{
+ "User1Data":
+  [
+  {
+    "UserId": "20",
+    "UserName": "adel",
+    "UserPassword": "1555"
+  }
+],
+  "EditUser2Data":
+  [
+    {
+      "UserId": "20",
+      "UserName": "magdy",
+      "UserPassword": "1514",
+      "PhoneNo": "0111649944"
+    }
+  ],
+  "User3Data":
+  [
+    {
+      "UserId": "90",
+      "UserName": "ali",
+      "UserPassword": "8888"
+    }
+  ],
+  "User33Data":
+  [
+    {
+      "UserId": "90",
+      "UserName": "ali",
+      "UserPassword": "8888"
+    }
+    ],
+  "User5Data":
+  [
+    {
+      "UserId": "778",
+      "UserName": "goro",
+      "UserPassword": "24"
+    }
+  ],
+    "UserEditData":
+  [
+    {
+      "UserId": "550",
+      "UserName": "nora",
+      "UserPassword": "101"
+    }
+  ]
+
+
+}

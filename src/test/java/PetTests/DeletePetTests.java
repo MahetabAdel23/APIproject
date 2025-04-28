@@ -1,0 +1,75 @@
+package PetTests;
+
+import PetUtils.AddNewPetUtils;
+import PetUtils.DeletePetUtils;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import java.io.FileReader;
+
+public class DeletePetTests {
+
+    String PetId="";
+    @Test(dataProvider = "json_parsing",groups = {"RegressionTesting","SmokeTesting"})
+    public void DeletePetTest(String data) throws Exception {
+        SoftAssert softAssert = new SoftAssert();
+        String Id[]=data.split(",");
+        Response response= AddNewPetUtils.AddPet(Id[0] , Id[1], Id[2],200);
+        response.prettyPrint();
+        JsonPath jsonPath = response.jsonPath();
+        PetId = jsonPath.getString("id");
+        System.out.println("Response JSON Body: " + response.getBody().asString());//print response body
+
+        Response response2 = DeletePetUtils.DeletePet(PetId,200);
+        System.out.println("Response JSON Body: " + response2.getBody().asString());//print response body
+        JsonPath jsonPath2 = response2.jsonPath();
+        softAssert.assertEquals(jsonPath2.getString("message"), PetId);
+        softAssert.assertAll();
+        Thread.sleep(5000);
+    }
+    @Test(groups = {"RegressionTesting","NegativeTC"})
+    public void DeleteNonexistingPetTest() {//pass 1out of 5
+       SoftAssert softAssert= new SoftAssert();
+        Response response2 = DeletePetUtils.DeletePet("1234568",404);
+        System.out.println("Response JSON Body: " + response2.getBody().asString());//print response body
+        softAssert.assertTrue(response2.getBody().asString().isEmpty(), "Response body is not empty");
+        softAssert.assertAll();
+    }
+
+    @Test(groups = {"NegativeTC","RegressionTesting"})
+    public void DeletePetWithInvalidIDTest() {//pass 1out of 5
+        SoftAssert softAssert= new SoftAssert();
+        Response response2 = DeletePetUtils.DeletePet("abc",404);
+        System.out.println("Response JSON Body: " + response2.getBody().asString());//print response body
+        softAssert.assertTrue(response2.jsonPath().getString("message").contains("java.lang.NumberFormatException"), "Message does not contain the expected exception");
+        softAssert.assertAll();
+    }
+
+    @DataProvider(name="json_parsing")
+    public String[] jsonReader() throws Exception
+    {
+        //parsing the file
+        JSONParser jsonParser= new JSONParser();
+        FileReader reader=new FileReader("src/test/java/PetTests/PetTestDatajson.json");
+        Object obj=jsonParser.parse(reader);
+        JSONObject jsonObject= (JSONObject) obj;//will hold all data readed
+
+        JSONArray array=(JSONArray) jsonObject.get("AddPetData");
+        String arr[]=new String[array.size()];
+        for(int i=0;i<array.size();i++)
+        {
+            JSONObject users=(JSONObject) array.get(i);
+            String GeneralId=(String) users.get("GeneralId");
+            String CategoryId=(String) users.get("CategoryId");
+            String TagsId=(String) users.get("TagsId");
+            arr[i]=GeneralId+","+CategoryId+","+TagsId;
+        }
+        return arr;
+    }
+}
